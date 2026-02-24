@@ -1,5 +1,7 @@
 package se.iths.johan.grupp_5_projektarbete.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import se.iths.johan.grupp_5_projektarbete.exception.EmployeeNotFoundException;
 import se.iths.johan.grupp_5_projektarbete.model.Employee;
@@ -10,6 +12,7 @@ import java.util.List;
 
 @Service
 public class EmployeeService {
+    private static final Logger logService = LoggerFactory.getLogger(EmployeeService.class);
 
     private final EmployeeRepository employeeRepository;
     private final EmployeeValidator employeeValidator;
@@ -26,8 +29,12 @@ public class EmployeeService {
 
     //get one
     public Employee getEmployeeById(Long id) {
-        return employeeRepository.findById(id).
-                orElseThrow(() -> new EmployeeNotFoundException("Employee with id " + id + " not found"));
+        logService.info("Getting employee by id {}", id);
+
+        return employeeRepository.findById(id).orElseThrow(() -> {
+            logService.error("Employee with id {} not found", id);
+            return new EmployeeNotFoundException("Employee with id " + id + " not found");
+        });
     }
 
     //create, validerar så att entiteten inte bryter mot några regler innan create
@@ -42,8 +49,13 @@ public class EmployeeService {
 
     //update
     public Employee updateEmployee(Long id, Employee updatedEmployee) {
-        Employee current = employeeRepository.findById(id).
-                orElseThrow(() -> new EmployeeNotFoundException("Employee with id " + id + " not found and can therefore not be updated"));
+        logService.info("Updating employee with id {}", id);
+
+        Employee current = employeeRepository.findById(id).orElseThrow(() -> {
+            logService.warn("Employee with id {} not found", id);
+            return new EmployeeNotFoundException("Employee with id " + id + " not found and can therefore not be updated");
+        });
+
         //validering av update innan infon lagras över till current
         employeeValidator.validateEmployee(updatedEmployee.getName());
         employeeValidator.validateSalary(updatedEmployee.getMonthlySalary());
@@ -63,8 +75,12 @@ public class EmployeeService {
 
     //delete, letar efter employee med värdeparam, hittas ej så kastas annars delete
     public void deleteEmployee(Long id) {
-        Employee current = employeeRepository.findById(id).
-                orElseThrow(() -> new EmployeeNotFoundException("Employee with id " + id + " not found and can therefore not be deleted"));
+        logService.info("Deleting employee with id {}", id);
+
+        Employee current = employeeRepository.findById(id).orElseThrow(() -> {
+            logService.warn("Employee with id {} not found for deletion", id);
+            return new EmployeeNotFoundException("Employee with id " + id + " not found and can therefore not be deleted");
+        });
         employeeRepository.delete(current);
     }
 }

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <property name="LOGS" value="logs/app.log"/>
+
+    <!-- log för konsol spring, skrivs i terminalen-->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+
+    <!-- log för fil, ska skriva till fil och inte terminalen-->
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>${LOGS}</file>
+        <append>true</append>
+        <encoder>
+            <pattern>
+                %d{yyyy-MM-dd HH-mm-ss} [%level] %logger - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!-- spring logs skrivs i terminal här -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+    <!-- här går det till fil -->
+    <logger name="se.iths.johan.grupp_5_projektarbete" level="INFO" additivity="false">
+        <appender-ref ref="FILE"/>
+    </logger>
+</configuration>
