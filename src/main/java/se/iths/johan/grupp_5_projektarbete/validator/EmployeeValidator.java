@@ -4,13 +4,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import se.iths.johan.grupp_5_projektarbete.exception.EmployeeValidationException;
-import se.iths.johan.grupp_5_projektarbete.service.EmployeeService;
 
 import java.util.List;
 
 @Component
 public class EmployeeValidator {
-    private static final Logger logValidator = LoggerFactory.getLogger(EmployeeService.class);
+    private static final Logger logValidator = LoggerFactory.getLogger(EmployeeValidator.class);
 
     private static final List<String> employmentType = List.of(
             "Permanent", "Fixed term", "Part"
