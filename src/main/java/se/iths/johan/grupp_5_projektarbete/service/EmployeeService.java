@@ -32,7 +32,7 @@ public class EmployeeService {
         logService.info("Getting employee by id {}", id);
 
         return employeeRepository.findById(id).orElseThrow(() -> {
-            logService.error("Employee with id {} not found", id);
+            logService.warn("Employee with id {} not found", id);
             return new EmployeeNotFoundException("Employee with id " + id + " not found");
         });
     }
