@@ -69,7 +69,7 @@ public class EmployeeIntegrationTest {
         employee1.setName("Aslihan Taskin");
         employee1.setEmployeeType("Consult");
         employee1.setMonthlySalary(45000);
-        employee1.setEmploymentType("Fixed");
+        employee1.setEmploymentType("Fixed term");
         employee1.setEmploymentPercentage(100);
 
         Employee employee2 = new Employee();
