@@ -32,7 +32,7 @@ public class EmployeeIntegrationTest {
     //skapa employee och verifiera sparning
     @Test
     void createEmployeeSavedTest() throws Exception {
-        mockMvc.perform(post("/employees/")
+        mockMvc.perform(post("/employees")
                         .param("name", "Aslihan Taskin")
                         .param("monthlySalary", "35000")
                         .param("employmentType", "Fixed term")
